@@ -1,0 +1,59 @@
+{
+  "mcpServers": {
+    "comment": "Choose ONE of the following configurations based on your setup",
+    
+    "kanboard_option1_entry_point": {
+      "description": "Option 1: Use installed entry point (RECOMMENDED)",
+      "command": "/path/to/your/python/bin/kanboard-mcp",
+      "env": {
+        "KANBOARD_URL": "https://your-kanboard.com/jsonrpc.php",
+        "KANBOARD_API_TOKEN": "your_api_token_here",
+        "KANBOARD_USERNAME": "your_username",
+        "KANBOARD_VERIFY_SSL": "true",
+        "DEBUG": "false"
+      }
+    },
+    
+    "kanboard_option2_python3": {
+      "description": "Option 2: Use system python3 with full module path",
+      "command": "/usr/local/bin/python3",
+      "args": ["-m", "kanboard_mcp.server"],
+      "cwd": "/path/to/kanboard-mcp",
+      "env": {
+        "PYTHONPATH": "/path/to/kanboard-mcp/src",
+        "KANBOARD_URL": "https://your-kanboard.com/jsonrpc.php",
+        "KANBOARD_API_TOKEN": "your_api_token_here",
+        "KANBOARD_USERNAME": "your_username",
+        "KANBOARD_VERIFY_SSL": "true",
+        "DEBUG": "false"
+      }
+    },
+    
+    "kanboard_option3_pyenv": {
+      "description": "Option 3: Use pyenv python with full path",
+      "command": "/path/to/your/python/bin/python",
+      "args": ["-m", "kanboard_mcp.server"],
+      "cwd": "/path/to/kanboard-mcp",
+      "env": {
+        "PYTHONPATH": "/path/to/kanboard-mcp/src",
+        "KANBOARD_URL": "https://your-kanboard.com/jsonrpc.php",
+        "KANBOARD_API_TOKEN": "your_api_token_here",
+        "KANBOARD_USERNAME": "your_username",
+        "KANBOARD_VERIFY_SSL": "true",
+        "DEBUG": "false"
+      }
+    },
+    
+    "kanboard_option4_wrapper": {
+      "description": "Option 4: Use wrapper script (most reliable)",
+      "command": "/path/to/kanboard-mcp/run_server.sh",
+      "env": {
+        "KANBOARD_URL": "https://your-kanboard.com/jsonrpc.php",
+        "KANBOARD_API_TOKEN": "your_api_token_here",
+        "KANBOARD_USERNAME": "ha",
+        "KANBOARD_VERIFY_SSL": "true",
+        "DEBUG": "false"
+      }
+    }
+  }
+}

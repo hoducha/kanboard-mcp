@@ -1,17 +1,12 @@
 # Examples
 
-This directory contains example configurations and scripts for using the Kanboard MCP Server.
+This directory contains example configurations for using the Kanboard MCP Server.
 
 ## Files
 
 ### Claude Desktop Configuration Examples
 
-- **`claude_desktop_config.json.example`** - Simple configuration example
 - **`claude_desktop_config_options.json`** - Multiple configuration options for different setups
-
-### Scripts
-
-- **`run_server.sh`** - Bash wrapper script for running the server with proper environment setup
 
 ## Usage
 
@@ -19,45 +14,29 @@ This directory contains example configurations and scripts for using the Kanboar
 
 1. **Choose your configuration method** from the options in `claude_desktop_config_options.json`
 2. **Copy the relevant configuration** to your Claude Desktop config file
-3. **Update the paths** to match your system:
-   - Replace `/path/to/your/python/bin/` with your actual Python installation path
-   - Replace `/path/to/kanboard-mcp/` with your actual project path
-   - Replace placeholder URLs and tokens with your actual Kanboard credentials
+3. **Update the configuration** with your system paths and Kanboard credentials:
+   - Replace `/Users/username/.local/bin/uvx` with your actual uvx path (run `which uvx` to find it)
+   - Replace `https://your-kanboard.com/jsonrpc.php` with your actual Kanboard URL
+   - Replace `your_api_token_here` with your actual API token
+   - Replace `your_username` with your actual username
 
-### Finding Your Python Path
+### Configuration Options
 
-Run one of these commands to find your Python installation:
+**Option 1: Using uvx (Recommended)**
+- No installation required
+- Automatically manages Python environments
+- Always uses the latest published version
+- Simplest configuration
 
-```bash
-# For system Python
-which python3
+**Option 2: Using uvx with local development version**
+- For developers working on the codebase
+- Runs from local source code
+- Update `/path/to/kanboard-mcp` to your project directory
 
-# For pyenv users
-which python
-
-# For conda users
-conda info --envs
-```
-
-Common Python paths:
-- System Python: `/usr/local/bin/python3` or `/usr/bin/python3`
-- pyenv: `~/.pyenv/versions/X.X.X/bin/python`
-- conda: `~/anaconda3/bin/python` or `~/miniconda3/bin/python`
-
-### Wrapper Script Setup
-
-1. **Copy the script** to your desired location
-2. **Update the paths** in `run_server.sh`:
-   ```bash
-   export PATH="/your/python/bin:$PATH"
-   export PYTHONPATH="/your/kanboard-mcp/src:$PYTHONPATH"
-   cd "/your/kanboard-mcp"
-   exec "/your/python/bin/python" -m kanboard_mcp.server
-   ```
-3. **Make it executable**:
-   ```bash
-   chmod +x run_server.sh
-   ```
+**Option 3: Using pip-installed package**
+- Traditional installation method
+- Requires `pip install kanboard-mcp`
+- Good for environments where uvx isn't available
 
 ### Environment Variables
 
@@ -75,15 +54,18 @@ All configuration examples support these environment variables:
 
 ### Common Issues
 
-1. **Python not found**: Update the `command` path in your configuration
-2. **Module not found**: Ensure `PYTHONPATH` includes the `src` directory
-3. **Permission denied**: Make sure the script is executable (`chmod +x`)
-4. **Connection errors**: Verify your Kanboard URL and API token
+1. **uvx not found (`spawn uvx ENOENT`)**: 
+   - Find uvx path: `which uvx` (usually `/Users/username/.local/bin/uvx`)
+   - Use full path in config: `"command": "/Users/username/.local/bin/uvx"`
+   - Or install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+2. **Connection errors**: Verify your Kanboard URL and API token
+3. **Permission errors**: Check that your API token has sufficient permissions
+4. **SSL errors**: Set `KANBOARD_VERIFY_SSL=false` for self-signed certificates
 
 ### Getting Help
 
 If you encounter issues:
 1. Check the main README troubleshooting section
-2. Verify your paths and credentials
-3. Test the server manually: `python -m kanboard_mcp.server`
+2. Verify your Kanboard credentials
+3. Test the server manually: `uvx kanboard-mcp` or `kanboard-mcp`
 4. Check Claude Desktop logs for specific error messages

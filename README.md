@@ -22,19 +22,41 @@ This MCP server provides access to 60+ Kanboard API endpoints organized into the
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - Access to a Kanboard instance with API enabled
 - Kanboard API token
 
-### Install Dependencies
+### Install from PyPI (Recommended)
 
 ```bash
+# Install using uvx (no need to manage Python environments)
+uvx kanboard-mcp
+
+# Or install with pip
+pip install kanboard-mcp
+```
+
+### Install from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/hoducha/kanboard-mcp.git
+cd kanboard-mcp
+
+# Install with uv
+uv sync
+
+# Or install with pip
 pip install -e .
 ```
 
-Or for development:
+### Development Installation
 
 ```bash
+# With uv
+uv sync --all-extras
+
+# Or with pip
 pip install -e ".[dev]"
 ```
 
@@ -74,7 +96,10 @@ DEBUG=false
 ### Running the Server
 
 ```bash
-# Using the installed command
+# Using uvx (recommended - no installation needed)
+uvx kanboard-mcp
+
+# Or using the installed command
 kanboard-mcp
 
 # Or using Python module
@@ -85,6 +110,25 @@ python -m kanboard_mcp.server
 
 Add the server to your MCP client configuration. For Claude Desktop, add to your `claude_desktop_config.json`:
 
+**Option 1: Using uvx (Recommended)**
+```json
+{
+  "mcpServers": {
+    "kanboard": {
+      "command": "/Users/username/.local/bin/uvx",
+      "args": ["kanboard-mcp"],
+      "env": {
+        "KANBOARD_URL": "https://your-kanboard.com/jsonrpc.php",
+        "KANBOARD_API_TOKEN": "your_api_token_here"
+      }
+    }
+  }
+}
+```
+
+**Note**: Replace `/Users/username/.local/bin/uvx` with your actual uvx path. Find it by running `which uvx` in your terminal.
+
+**Option 2: Using installed package**
 ```json
 {
   "mcpServers": {
@@ -225,26 +269,27 @@ ruff src/
 
 **Python Command Not Found (`spawn python ENOENT`)**
 
-If you get this error, Claude Desktop can't find the Python executable. Try these solutions:
+If you get this error, Claude Desktop can't find the Python executable. Here are the solutions in order of preference:
 
-1. **Use the full path to the installed entry point (RECOMMENDED)**:
+1. **Use uvx (RECOMMENDED)**:
    ```json
    {
      "mcpServers": {
        "kanboard": {
-         "command": "/path/to/your/python/bin/kanboard-mcp",
+         "command": "/Users/username/.local/bin/uvx",
+         "args": ["kanboard-mcp"],
          "env": { ... }
        }
      }
    }
    ```
 
-2. **Use the wrapper script**:
+2. **Use pip-installed package**:
    ```json
    {
      "mcpServers": {
        "kanboard": {
-         "command": "/path/to/kanboard-mcp/run_server.sh",
+         "command": "kanboard-mcp",
          "env": { ... }
        }
      }
@@ -258,9 +303,8 @@ If you get this error, Claude Desktop can't find the Python executable. Try thes
        "kanboard": {
          "command": "/usr/local/bin/python3",
          "args": ["-m", "kanboard_mcp.server"],
-         "cwd": "/path/to/kanboard-mcp",
          "env": {
-           "PYTHONPATH": "/path/to/kanboard-mcp/src",
+           "PYTHONPATH": "/path/to/site-packages",
            ...
          }
        }
@@ -268,10 +312,11 @@ If you get this error, Claude Desktop can't find the Python executable. Try thes
    }
    ```
 
-**Finding Your Python Path**:
-- Run `which python3` or `which python` in terminal
-- For pyenv users: `~/.pyenv/versions/X.X.X/bin/python`
-- For system Python: `/usr/local/bin/python3` or `/usr/bin/python3`
+**Benefits of uvx**:
+- No need to manage Python environments
+- Automatically installs and runs the latest version
+- Works across different Python installations
+- Simplest configuration
 
 ### Debug Mode
 

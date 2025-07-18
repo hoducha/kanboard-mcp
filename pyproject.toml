@@ -1,21 +1,25 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "kanboard-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Model Context Protocol server for Kanboard API"
 readme = "README.md"
-requires-python = ">=3.9"
-authors = [{ name = "Kanboard MCP Contributors", email = "contributors@example.com" }]
+requires-python = ">=3.10"
+authors = [{ name = "Ha Ho", email = "hoducha@gmail.com" }]
 license = { text = "MIT" }
 keywords = ["kanboard", "mcp", "model-context-protocol", "api"]
 classifiers = [
     "Development Status :: 3 - Alpha",
-    "Intended Audience :: Kanboard Users",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 
 dependencies = [
@@ -37,22 +41,19 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/kanboard-mcp"
-Repository = "https://github.com/yourusername/kanboard-mcp"
-Issues = "https://github.com/yourusername/kanboard-mcp/issues"
+Homepage = "https://github.com/hoducha/kanboard-mcp"
+Repository = "https://github.com/hoducha/kanboard-mcp"
+Issues = "https://github.com/hoducha/kanboard-mcp/issues"
 
 [project.scripts]
 kanboard-mcp = "kanboard_mcp.server:main"
 
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.setuptools.package-dir]
-"" = "src"
+[tool.hatch.build.targets.wheel]
+packages = ["src/kanboard_mcp"]
 
 [tool.black]
 line-length = 88
-target-version = ['py39']
+target-version = ['py310']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -75,7 +76,7 @@ line_length = 88
 known_first_party = ["kanboard_mcp"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -90,7 +91,7 @@ warn_unreachable = true
 strict_equality = true
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 line-length = 88
 select = [
     "E",  # pycodestyle errors
